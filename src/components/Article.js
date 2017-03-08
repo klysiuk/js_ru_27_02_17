@@ -1,45 +1,28 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import CommentList from './CommentList'
 
+function Article(props) {
+    const {article, isOpen, toggleOpen} = props
+    const body = isOpen
+        ? <section>
+            {article.text}
+            <CommentList comments={article.comments}/>
+        </section>
+        : null
+    return (
+        <div>
+            <h3 onClick={toggleOpen}>{article.title}</h3>
+            {body}
+        </div>
+    )
+}
 
-class Article extends Component {
-
-	constructor() {
-		super()
-		this.state = {
-			isOpen: false,
-			commentsVisible: false
-		}
-	}
-
-	render() {
-		const {article} = this.props
-		const {isOpen} = this.state
-		const body = isOpen ? <section>{article.text}</section> : null
-		const commentsButton = <button onClick={this.toggleComments}> {this.state.commentsVisible ? 'Hide' : 'Show'}</button>
-		const commentList = this.state.commentsVisible ? [<CommentList key='comments' comments={article.comments}/>,<p key='p'>{commentsButton}</p>] : null;
-
-		return (
-			<div>
-			<h3 onClick={this.handleClick}>{article.title}</h3>
-			{body}
-			{commentsButton}
-			{commentList}
-			</div>
-		)
-	}
-
-	handleClick = (ev) => {
-		this.setState({
-			isOpen: !this.state.isOpen
-		})
-	}
-
-	toggleComments = (ev) => {
-		this.setState({
-			commentsVisible: !this.state.commentsVisible
-		});
-	}
+Article.propTypes = {
+    article: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        text: PropTypes.string,
+        comments: PropTypes.array
+    }).isRequired
 }
 
 export default Article
