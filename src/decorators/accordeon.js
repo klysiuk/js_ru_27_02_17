@@ -2,13 +2,23 @@ import React from 'react'
 
 export default (CustomComponent) => class Accordeon extends React.Component {
 	state = {
-		openArticleId: null
+		openArticleId: null,
+		previouslyOpenArticleId: null
 	}
 
 	toggleOpenArticle = openArticleId => ev => {
-		this.setState({
-			openArticleId
-		})
+		debugger;
+		if (this.state.previouslyOpenArticleId == openArticleId) {
+			this.setState({
+				openArticleId: null,
+				previouslyOpenArticleId: null
+			});
+		} else {
+			this.setState({
+				openArticleId,
+				previouslyOpenArticleId: openArticleId
+			});
+		}
 	}
 
 	render() {
