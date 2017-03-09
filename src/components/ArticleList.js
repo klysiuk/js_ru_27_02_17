@@ -23,7 +23,8 @@ class ArticleList extends Component {
 }
 
 ArticleList.propTypes = {
-    articles: PropTypes.array.isRequired
+        //вот сюда еще и из декоратора данные приходят
+        articles: PropTypes.array.isRequired
 }
 
 export default Accordeon(ArticleList)
