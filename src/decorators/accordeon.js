@@ -2,7 +2,9 @@ import React from 'react'
 
 export default (CustomComponent) => class Accordeon extends React.Component {
 	state = {
+	        //Не привязывайся к названиям сущностей, вся суть декораторов в универсальности. Сделай openItemId
 		openArticleId: null,
+	        //это ты перемудрила, одного поля достаточно
 		previouslyOpenArticleId: null
 	}
 
@@ -15,6 +17,7 @@ export default (CustomComponent) => class Accordeon extends React.Component {
 			});
 		} else {
 			this.setState({
+				//у тебя еще и значения всегда совпадают, совсем лишнее поле
 				openArticleId,
 				previouslyOpenArticleId: openArticleId
 			});
