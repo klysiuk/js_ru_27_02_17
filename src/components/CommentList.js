@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
+import CommentAdd from './CommentAdd'
 
 class CommentList extends Component {
     static propTypes = {
@@ -42,6 +43,7 @@ class CommentList extends Component {
                 <h3>
                     No comments yet
                 </h3>
+				<CommentAdd/>
             </div>
         }
 
@@ -51,6 +53,7 @@ class CommentList extends Component {
                 <ul>
                     {commentItems}
                 </ul>
+				<CommentAdd/>
             </div>
         )
     }
