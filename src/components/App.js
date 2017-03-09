@@ -3,6 +3,8 @@ import ArticleList from './ArticleList/index'
 import Chart from './Chart'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
+import DateRange from './DateRange/index'
+
 
 class App extends Component {
     static propTypes = {
@@ -22,6 +24,9 @@ class App extends Component {
         }))
         return (
             <div>
+				<p>Date range picker</p>
+				<DateRange/>
+
                 Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                 <Select options = {options} value={this.state.selected} onChange = {this.handleSelectChange} multi/>
                 <ArticleList articles={this.props.articles}/>
