@@ -9,7 +9,9 @@ class ArticleList extends Component {
     render() {
         const {articles, toggleOpenItem, isItemOpened} = this.props
 
-        const articleComponents = articles.map(article => <li key={article.id}>
+        const articleComponents = articles
+		.filter(filterArticles(this.props))
+		.map(article => <li key={article.id}>
             <Article article={article}
                      isOpen={isItemOpened(article.id)}
                      toggleOpen={toggleOpenItem(article.id)}
@@ -31,10 +33,22 @@ class ArticleList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log('---', 'connect, state = ', state)
     return {
-        articles: state.articles
+        articles: state.articles,
+		selectedArticleIds: state.selectedArticles.map(({value}) => value),
+		from: state.date.from,
+		to: state.date.to
     }
+}
+
+const filterArticles = ({selectedArticleIds, from, to}) => article => {
+	let isSelectedArticle = selectedArticleIds.length ? selectedArticleIds.includes(article.id) : true
+
+	if (isSelectedArticle && to && from) {
+		var articleDate = new Date(article.date);
+		return (articleDate > new Date(from) && articleDate < new Date(to))
+	}
+	return isSelectedArticle;
 }
 
 export default connect(mapStateToProps)(accrdion(ArticleList))
