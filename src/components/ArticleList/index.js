@@ -32,14 +32,12 @@ class ArticleList extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        articles: state.articles,
-		selectedArticleIds: state.selectedArticles.map(({value}) => value),
-		from: state.date.from,
-		to: state.date.to
-    }
-}
+const mapStateToProps = ({articles, selectedArticleIds, date}) => ({
+        articles,
+		selectedArticleIds,
+		from: date.from,
+		to: date.to
+    })
 
 const filterArticles = ({selectedArticleIds, from, to}) => article => {
 	let isSelectedArticle = selectedArticleIds.length ? selectedArticleIds.includes(article.id) : true

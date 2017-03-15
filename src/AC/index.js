@@ -16,10 +16,10 @@ export function deleteArticle(id) {
     }
 }
 
-export function selectArticle(selectedArticles) {
+export function selectArticle(selectedArticleIds) {
     return {
         type: SELECT_ARTICLE,
-        payload: { selectedArticles }
+        payload: { selectedArticleIds }
     }
 }
 

@@ -6,7 +6,7 @@ import dateReducer from './dates'
 
 export default combineReducers({
     articles: articleReducer,
-	selectedArticles: selectedArticleReducer,
+	selectedArticleIds: selectedArticleReducer,
     count: counterReducer,
 	date: dateReducer
 })

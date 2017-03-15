@@ -12,15 +12,17 @@ class SelectFilter extends Component {
 
     handleChange = selected => {
 		const {selectArticle} = this.props
-		selectArticle(selected)
+		const selectedArticleIds = selected.map(({value}) => value)
+		selectArticle(selectedArticleIds)
 	}
 
     render() {
-        const { articles, selectedArticles } = this.props
-        const options = articles.map(article => ({
-            label: article.title,
-            value: article.id
-        }))
+		const { articles, selectedArticleIds } = this.props
+		const options = articles.map(({title, id}) => ({
+		    label: title,
+		    value: id
+		}))
+		const selectedArticles = options.filter(({value}) => selectedArticleIds.includes(value))
 
         return <Select
             options={options}
@@ -31,9 +33,4 @@ class SelectFilter extends Component {
     }
 }
 
-export default connect(state => {
-    return {
-        articles: state.articles,
-		selectedArticles: state.selectedArticles
-    }
-}, {selectArticle})(SelectFilter)
+export default connect(({ articles, selectedArticleIds }) => ({ articles, selectedArticleIds }), { selectArticle })(SelectFilter)

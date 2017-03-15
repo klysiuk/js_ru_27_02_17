@@ -18,7 +18,7 @@ export const selectedArticleReducer = (state = [], action) => {
 
     switch (type) {
         case SELECT_ARTICLE:
-            return payload.selectedArticles;
+            return payload.selectedArticleIds;
 
     }
 
