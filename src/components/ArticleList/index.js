@@ -32,22 +32,22 @@ class ArticleList extends Component {
     }
 }
 
-const mapStateToProps = ({articles, selectedArticleIds, date}) => ({
-        articles,
-		selectedArticleIds,
-		from: date.from,
-		to: date.to
-    })
-
 const filterArticles = ({selectedArticleIds, from, to}) => article => {
 	let isSelectedArticle = selectedArticleIds.length ? selectedArticleIds.includes(article.id) : true
 
 	if (isSelectedArticle && to && from) {
-		var articleDate = new Date(article.date);
-		return (articleDate > new Date(from) && articleDate < new Date(to))
+		const articleDate = new Date(article.date)
+		return (articleDate > from && articleDate < to)
 	}
 	return isSelectedArticle;
 }
+
+const mapStateToProps = ({articles, selectedArticleIds, date : { from, to }}) => ({
+    articles,
+	selectedArticleIds,
+	from,
+	to
+})
 
 export default connect(mapStateToProps)(accrdion(ArticleList))
 

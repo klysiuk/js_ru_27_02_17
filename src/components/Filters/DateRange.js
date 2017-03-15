@@ -32,9 +32,4 @@ class DateRange extends Component {
 
 }
 
-export default connect(state => {
-    return {
-        from: state.date.from,
-		to: state.date.to
-    }
-},{setDate})(DateRange)
+export default connect(({ date: { from, to } }) => ({from, to}), { setDate })(DateRange)
