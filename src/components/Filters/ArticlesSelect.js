@@ -22,6 +22,7 @@ class SelectFilter extends Component {
 		    label: title,
 		    value: id
 		}))
+		//можешь и просто массив id передать
 		const selectedArticles = options.filter(({value}) => selectedArticleIds.includes(value))
 
         return <Select
