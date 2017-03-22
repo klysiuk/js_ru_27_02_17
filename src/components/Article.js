@@ -6,7 +6,7 @@ function Article(props) {
     const body = isOpen
         ? <section>
             {article.text}
-            <CommentList comments={article.comments}/>
+            <CommentList comments={article.comments} parentId={article.id}/>
         </section>
         : null
     return (
