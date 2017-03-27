@@ -9,6 +9,7 @@ const CommentModel = Record({
     text: ''
 })
 
+//давай комменты хранить в такой же структуре, как и статьи. Иначе быстро запутаешься
 export default (comments = new Map({}), action) => {
     const { type, payload, randomId } = action
 
