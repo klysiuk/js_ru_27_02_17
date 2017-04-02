@@ -1,17 +1,32 @@
 import React, { Component, PropTypes } from 'react'
+import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
+import {ConnectedRouter} from 'react-router-redux'
 import {connect} from 'react-redux'
-import ArticleList from './ArticleList/index'
-import Chart from './Chart'
+import ArticlesPage from './ArticlesPage'
+import NotFound from './NotFound'
 import Filters from './Filters/index'
 import Counter from './Counter'
+import CommentsPage from './CommentsPage'
+import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
+import history from '../history'
 
 class App extends Component {
     static propTypes = {
     };
 
+    static childContextTypes = {
+        user: PropTypes.string
+    }
+
     state = {
         text: ''
+    }
+
+    getChildContext() {
+        return {
+            user: this.state.text
+        }
     }
 
     componentDidMount() {
@@ -20,13 +35,25 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <Counter />
-                Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
-                <Filters articles={[]}/>
-                <ArticleList />
-                <Chart />
-            </div>
+            <ConnectedRouter history={history}>
+                <div>
+                    Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    <Menu>
+                        <MenuItem path="/counter"/>
+                        <MenuItem path="/filters"/>
+                        <MenuItem path="/articles"/>
+                        <MenuItem path="/comments"/>
+                    </Menu>
+                    <Switch>
+                        <Route path="/counter" component={Counter} exact />
+                        <Route path="/filters" component={Filters} />
+                        <Route path="/articles" component={ArticlesPage} />
+                        <Route path="/comments/:page" component={CommentsPage} />
+                        <Redirect from="/comments" to="/comments/1"/>
+                        <Route path="*" component={NotFound} />
+                    </Switch>
+                </div>
+            </ConnectedRouter>
         )
     }
 

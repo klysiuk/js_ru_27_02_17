@@ -5,6 +5,7 @@ import Loader from '../Loader'
 import CSSTransition from 'react-addons-css-transition-group'
 import {connect} from 'react-redux'
 import {deleteArticle, loadArticleById} from '../../AC'
+import {articleByIdSelector} from '../../selectors'
 import './style.css'
 
 class Article extends Component {
@@ -14,14 +15,29 @@ class Article extends Component {
      }
 
      */
-    componentWillReceiveProps({isOpen, article, loadArticleById}) {
-        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticleById(article.id)
+    componentWillMount() {
+        this.checkAndLoad(this.props)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.checkAndLoad(nextProps)
+    }
+
+    checkAndLoad({article, loadArticleById, match}) {
+        if (!article || (!article.text && !article.loading)) loadArticleById(match.params.id)
+    }
+
+    static contextTypes = {
+        user: PropTypes.string
     }
 
     render() {
         const {article, isOpen, toggleOpen} = this.props
+        if (!article) return null
+
         const body = isOpen
             ? <section>
+                <p>User: {this.context.user}</p>
                 {article.text}
                 {article.loading && <Loader />}
                 <CommentList article={article} ref={this.getCommentList}/>
@@ -60,12 +76,18 @@ class Article extends Component {
 
 Article.propTypes = {
     article: PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         text: PropTypes.string,
         comments: PropTypes.array
-    }).isRequired,
+    }),
     isOpen: PropTypes.bool,
     toggleOpen: PropTypes.func
 }
 
-export default connect(null, { deleteArticle, loadArticleById })(Article)
+function mapStateToProps(state, {match}) {
+    return {
+        article: articleByIdSelector(state, match.params)
+    }
+}
+
+export default connect(mapStateToProps, { deleteArticle, loadArticleById })(Article)

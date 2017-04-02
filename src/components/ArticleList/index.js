@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux'
-import Article from '../Article/index'
+import {Link} from 'react-router-dom'
 import Loader from '../Loader'
 import CSSTransition from 'react-addons-css-transition-group'
 import accrdion from '../../decorators/accordion'
@@ -8,8 +8,12 @@ import {filteredArticlesSelector} from '../../selectors/index'
 import './style.css'
 
 class ArticleList extends Component {
+    static contextTypes = {
+        user: PropTypes.string
+    }
+
     render() {
-        const {articles, error, loading, toggleOpenItem, isItemOpened} = this.props
+        const {articles, error, loading, toggleOpenItem, isItemOpened, match} = this.props
         if (error) {
             return <h1>{error}</h1>
         }
@@ -19,22 +23,22 @@ class ArticleList extends Component {
         }
 
         const articleComponents = articles.map(article => <li key={article.id}>
-            <Article article={article}
-                     isOpen={isItemOpened(article.id)}
-                     toggleOpen={toggleOpenItem(article.id)}
-            />
+            <Link to={`${match.url}/${article.id}`}>{article.title}</Link>
         </li>)
 
         return (
-            <CSSTransition component="ul"
-                           transitionName="article-list"
-                           transitionAppear={true}
-                           transitionAppearTimeout={100}
-                           transitionEnterTimeout={500}
-                           transitionLeaveTimeout={300}
-            >
-                {articleComponents}
-            </CSSTransition>
+            <div>
+                <h3>User: {this.context.user}</h3>
+                <CSSTransition component="ul"
+                               transitionName="article-list"
+                               transitionAppear={true}
+                               transitionAppearTimeout={100}
+                               transitionEnterTimeout={500}
+                               transitionLeaveTimeout={300}
+                >
+                    {articleComponents}
+                </CSSTransition>
+            </div>
         )
     }
 }

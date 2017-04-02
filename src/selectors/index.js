@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 
 export const getArticles = state => state.articles.entities
 export const getFilters = state => state.filters
-export const getComments = state => state.comments
+export const getComments = state => state.comments.entities
 export const getId = (state, props) => props.id
 
 export const filteredArticlesSelector = createSelector(getArticles, getFilters, getFilteredArticles)
@@ -12,6 +12,8 @@ export const createFindCommentSelector = () => createSelector(getComments, getId
         return comments.get(id)
     }
 )
+
+export const articleByIdSelector = createSelector(getArticles, getId, (entities, id) => entities.get(id))
 
 function getFilteredArticles(articles, filters) {
     const { selected, dateRange: { from, to } } = filters
