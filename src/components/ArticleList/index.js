@@ -12,6 +12,10 @@ class ArticleList extends Component {
         user: PropTypes.string
     }
 
+	static contextTypes = {
+		translate: PropTypes.func
+	}
+
     render() {
         const {articles, error, loading, toggleOpenItem, isItemOpened, match} = this.props
         if (error) {
@@ -21,6 +25,7 @@ class ArticleList extends Component {
         if (loading) {
             return <Loader />
         }
+		let translate = this.context.translate;
 
         const articleComponents = articles.map(article => <li key={article.id}>
             <Link to={`${match.url}/${article.id}`}>{article.title}</Link>
@@ -28,7 +33,7 @@ class ArticleList extends Component {
 
         return (
             <div>
-                <h3>User: {this.context.user}</h3>
+                <h3>{translate('USER')}: {this.context.user}</h3>
                 <CSSTransition component="ul"
                                transitionName="article-list"
                                transitionAppear={true}

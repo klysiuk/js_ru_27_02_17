@@ -8,13 +8,18 @@ class Counter extends Component {
         count: PropTypes.number
     };
 
+	static contextTypes = {
+		translate: PropTypes.func
+	}
+
     render() {
         const {count} = this.props
         if (count > 5) return <Redirect to="/filters"/>
+		let translate = this.context.translate;
         return (
             <div>
-                <h3>Count: {count}</h3>
-                <a href="#" onClick={this.handleIncrement}>Increment me</a>
+                <h3>{translate('COUNT')}: {count}</h3>
+                <a href="#" onClick={this.handleIncrement}>{translate('INCREMENT_ME')}</a>
             </div>
         )
     }
